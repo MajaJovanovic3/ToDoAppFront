@@ -1,6 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import EditIcon from '@material-ui/icons/Edit';
+import AttachFileIcon from '@material-ui/icons/AttachFile';
+import InfoIcon from '@material-ui/icons/Info';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { connect, useDispatch } from 'react-redux';
+import { updateTask } from 'src/redux/actions/taskActions';
+import { TaskForm } from './TaskForm';
+import { TaskInfo } from './TaskInfo';
+import { uploadFile } from '../../../api/tasksApi';
 import {
   Box,
   Card,
@@ -9,17 +18,59 @@ import {
   Grid,
   Checkbox,
   Typography,
-  makeStyles
+  Button
 } from '@material-ui/core';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import GetAppIcon from '@material-ui/icons/GetApp';
 import { useStylesTaskCard } from 'src/common/useStyles';
-import { red } from '@material-ui/core/colors';
 
-const TaskCard = ({ className, task, ...rest }) => {
+const TaskCard = ({ className, taskProp, ...rest }) => {
   const classes = useStylesTaskCard();
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const [openInfo, setOpenInfo] = useState(false);
+  const [task, setTask] = useState(taskProp);
+
+  const handleClose = () => {
+    setOpenInfo(false);
+    setOpen(false);
+  };
+  const handleClickInfo = () => {
+    setOpenInfo(true);
+  };
+
+  const handleClickEdit = () => {
+    setOpen(true);
+  };
+  const handleChecked = e => {
+    setTask({ ...task, ['completed']: e.target.checked });
+    dispatch(updateTask({ ...task, ['completed']: e.target.checked }));
+  };
+
+  const handleUpload = e => {
+    const data = new FormData();
+    data.append('myFile', e.target.files[0]);
+    data.set('taskId', task._id);
+    uploadFile(data);
+    e.target.files[0].read();
+  };
+
+  const props = {
+    open: open,
+    task: task,
+    setTask: setTask,
+    handleChecked: handleChecked,
+    handleClose: handleClose
+  };
+  const propsInfo = {
+    openInfo: openInfo,
+    task: task,
+    handleClose: handleClose
+  };
   return (
-    <Card className={clsx(classes.root, className)} {...rest}>
+    <Card
+      className={clsx(classes.root, className)}
+      {...rest}
+      style={{ background: task.completed ? '#83acd5' : 'none' }}
+    >
       <CardContent>
         <Box display="flex" justifyContent="center" mb={3}></Box>
         <Typography
@@ -34,28 +85,50 @@ const TaskCard = ({ className, task, ...rest }) => {
           {task.description}
         </Typography>
         <Typography align="center" color="textPrimary" variant="body1">
-          <Checkbox value={task.checked} />
+          <Checkbox checked={task.completed} onChange={handleChecked} />
           Completed
         </Typography>
       </CardContent>
       <Box flexGrow={1} />
       <Divider />
-      <Box p={2}>
-        <Grid container justify="space-between" spacing={2}>
+      <Box p={2} style={{ background: '#e1e4f6' }}>
+        <Grid container justify="space-between">
           <Grid className={classes.statsItem} item>
-            <AccessTimeIcon className={classes.statsIcon} color="action" />
-            <Typography color="textSecondary" display="inline" variant="body2">
-              Updated 2hr ago
-            </Typography>
+            <Button
+              style={{ background: '#e1e4f6', color: '#3f51b5' }}
+              onClick={handleClickInfo}
+            >
+              <InfoIcon />
+            </Button>
+            <EditIcon onClick={handleClickEdit} />
+            <DeleteForeverIcon />
           </Grid>
           <Grid className={classes.statsItem} item>
-            <GetAppIcon className={classes.statsIcon} color="action" />
             <Typography color="textSecondary" display="inline" variant="body2">
-              {' '}
-              Downloads
+              <label htmlFor="btn-upload">
+                <input
+                  id="btn-upload"
+                  name="btn-upload"
+                  style={{ display: 'none' }}
+                  type="file"
+                  multiple
+                  onChange={handleUpload}
+                />
+                <Button
+                  className="btn-choose"
+                  variant="outlined"
+                  component="span"
+                >
+                  <AttachFileIcon /> Attach
+                </Button>
+              </label>
             </Typography>
           </Grid>
         </Grid>
+      </Box>
+      <Box>
+        <TaskInfo {...propsInfo} />
+        <TaskForm {...props} />
       </Box>
     </Card>
   );
@@ -65,5 +138,10 @@ TaskCard.propTypes = {
   className: PropTypes.string,
   task: PropTypes.object.isRequired
 };
+function mapStateToProps(state) {
+  return {
+    tasks: state
+  };
+}
 
-export default TaskCard;
+export default connect(mapStateToProps, { updateTask })(TaskCard);

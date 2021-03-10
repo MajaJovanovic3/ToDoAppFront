@@ -5,7 +5,6 @@ import DateFnsUtils from '@date-io/date-fns';
 import { Search as SearchIcon } from 'react-feather';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import ModalTask from './ModalTask';
-import { connect, useSelector, useDispatch } from 'react-redux';
 import { useStylesToolbar } from 'src/common/useStyles';
 import {
   Box,
@@ -21,11 +20,11 @@ export const Toolbar = (props, { className, ...rest }) => {
   const classes = useStylesToolbar();
   const [open, setOpen] = React.useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const tasks = useSelector(state => state.tasks);
-  const dispatch = useDispatch();
+
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -35,12 +34,12 @@ export const Toolbar = (props, { className, ...rest }) => {
   };
 
   const handleDateChange = async date => {
-    // props.setPage(null, 1);
     setSelectedDate(date);
     props.setSearch('');
     props.setDate(date);
     document.getElementById('search').value = '';
   };
+
   const props1 = {
     open: open,
     handleClickOpen: handleClickOpen,
@@ -48,6 +47,7 @@ export const Toolbar = (props, { className, ...rest }) => {
     date: selectedDate,
     setSearch: props.setSearch
   };
+
   return (
     <div className={clsx(classes.root, className)} {...rest}>
       <Box display="flex" justifyContent="flex-end">
@@ -58,7 +58,6 @@ export const Toolbar = (props, { className, ...rest }) => {
             className={classes.exportButton}
           />
         </MuiPickersUtilsProvider>
-
         <Button color="primary" variant="contained" onClick={handleClickOpen}>
           Add task
         </Button>
@@ -98,10 +97,4 @@ Toolbar.propTypes = {
   className: PropTypes.string
 };
 
-function mapStateToProps(state) {
-  return {
-    tasks: state.tasks
-  };
-}
-
-export default connect(mapStateToProps)(Toolbar);
+export default Toolbar;
