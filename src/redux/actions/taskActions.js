@@ -11,6 +11,10 @@ export const loadTasksSuccess = tasks => ({
   payload: tasks
 });
 
+export const updateTasksSuccess = task => ({
+  type: types.UPDATE_TASKS_SUCCESS,
+  payload: task
+});
 export function loadTasks(date) {
   return function(dispatch) {
     return taskApi
@@ -31,6 +35,22 @@ export function addTask(name, description, date) {
         if (res.isSaved) {
           alert(res.message);
           dispatch(addTasksSuccess(res.task));
+        }
+      })
+      .catch(error => {
+        throw error;
+      });
+  };
+}
+export function updateTask(task) {
+  console.log(task)
+  return function(dispatch) {
+    return taskApi
+      .updateTask(task)
+      .then(res => {
+        if (res.isUpdated) {
+          alert(res.message);
+          dispatch(updateTasksSuccess(res.task));
         }
       })
       .catch(error => {
