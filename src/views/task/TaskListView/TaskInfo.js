@@ -1,4 +1,10 @@
 import React from 'react';
+import Carousel from 'react-material-ui-carousel';
+import pdf from '@material-ui/icons/PictureAsPdf';
+import SubjectIcon from '@material-ui/icons/Subject';
+import { createMuiTheme } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/core';
+import { Document, Page } from 'react-pdf';
 import {
   Button,
   TextField,
@@ -7,8 +13,16 @@ import {
   DialogContent,
   DialogTitle
 } from '@material-ui/core';
-
-export function TaskInfo(props) {
+import { AlignCenter } from 'react-feather';
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#3c52b2'
+    }
+  }
+});
+export const TaskInfo = props => {
+  let blob;
   return (
     <div>
       <Dialog
@@ -40,7 +54,7 @@ export function TaskInfo(props) {
             />
             <TextField
               autoFocus
-              defaultValue={props.task.date.slice(0,10)}
+              defaultValue={props.task.date.slice(0, 10)}
               margin="normal"
               label="Description"
               variant="outlined"
@@ -53,6 +67,28 @@ export function TaskInfo(props) {
               ? 'Task is completed successfully'
               : "Task isn't completed yet!"}
           </div>
+          {props.task.files.length > 0 ? (
+            <Carousel>
+              {props.task.files.map(item =>
+                item.split('.').pop() == 'jpg' ||
+                item.split('.').pop() == 'jpeg' ||
+                item.split('.').pop() == 'png' ? (
+                  <img
+                    src={`http://localhost:3001/files/${item}`}
+                    href={`http://localhost:3001/files/${item}`}
+                    target="_blank"
+                    style={{
+                      width: 200,
+                      height: 200,
+                      display: 'block',
+                      marginLeft: 'auto',
+                      marginRight: 'auto'
+                    }}
+                  />
+                ) : null
+              )}
+            </Carousel>
+          ) : null}
         </DialogContent>
         <DialogActions>
           <Button onClick={props.handleClose} color="primary">
@@ -62,4 +98,4 @@ export function TaskInfo(props) {
       </Dialog>
     </div>
   );
-}
+};

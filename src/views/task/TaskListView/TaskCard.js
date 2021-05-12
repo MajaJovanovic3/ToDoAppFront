@@ -40,18 +40,19 @@ const TaskCard = ({ className, taskProp, ...rest }) => {
   const handleClickEdit = () => {
     setOpen(true);
   };
+
   const handleChecked = e => {
     setTask({ ...task, ['completed']: e.target.checked });
     dispatch(updateTask({ ...task, ['completed']: e.target.checked }));
   };
 
-  const handleUpload = e => {
+  async function handleUpload(e, taskId) {
     const data = new FormData();
     data.append('myFile', e.target.files[0]);
-    data.set('taskId', task._id);
-    uploadFile(data);
-    e.target.files[0].read();
-  };
+    data.set('taskId', taskId);
+    let response = await uploadFile(data);
+    setTask(response);
+  }
 
   const props = {
     open: open,
@@ -60,6 +61,7 @@ const TaskCard = ({ className, taskProp, ...rest }) => {
     handleChecked: handleChecked,
     handleClose: handleClose
   };
+  
   const propsInfo = {
     openInfo: openInfo,
     task: task,
@@ -106,20 +108,20 @@ const TaskCard = ({ className, taskProp, ...rest }) => {
           <Grid className={classes.statsItem} item>
             <Typography color="textSecondary" display="inline" variant="body2">
               <label htmlFor="btn-upload">
-                <input
-                  id="btn-upload"
-                  name="btn-upload"
-                  style={{ display: 'none' }}
-                  type="file"
-                  multiple
-                  onChange={handleUpload}
-                />
                 <Button
                   className="btn-choose"
                   variant="outlined"
                   component="span"
                 >
                   <AttachFileIcon /> Attach
+                  <input
+                    id="btn-upload"
+                    name="btn-upload"
+                    style={{ display: 'none' }}
+                    type="file"
+                    multiple
+                    onChange={e => handleUpload(e, task._id)}
+                  />
                 </Button>
               </label>
             </Typography>

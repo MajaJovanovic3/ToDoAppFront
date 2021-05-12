@@ -72,25 +72,9 @@ const LoginView = props => {
               values
             }) => (
               <form onSubmit={handleSubmit}>
-                <Box mb={3}>
-                  <Typography color="textPrimary" variant="h2">
+                <Box >
+                  <Typography color="textPrimary" align="center" variant="h2">
                     Sign in
-                  </Typography>
-                  <Typography
-                    color="textSecondary"
-                    gutterBottom
-                    variant="body2"
-                  >
-                    Sign in on the internal platform
-                  </Typography>
-                </Box>
-                <Box mt={3} mb={1}>
-                  <Typography
-                    align="center"
-                    color="textSecondary"
-                    variant="body1"
-                  >
-                    or login with email address
                   </Typography>
                 </Box>
                 <TextField

@@ -46,6 +46,9 @@ export async function uploadFile(data) {
       },
       withCredentials: true
     })
-    .then(res => alert(res.data.message))
+    .then(res => {
+      alert(res.data.message);
+      if ((res.data.status = 'OK')) return res.data.task;
+    })
     .catch(handleError);
 }
