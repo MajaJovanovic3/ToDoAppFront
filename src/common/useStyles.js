@@ -8,6 +8,9 @@ export const useStylesIndex = makeStyles(theme => ({
   },
   taskCard: {
     height: '100%'
+  },
+  toolbar: {
+    backgroundColor:"red"
   }
 }));
 export const useStylesTaskCard = makeStyles(theme => ({
@@ -30,5 +33,9 @@ export const useStylesToolbar = makeStyles(theme => ({
   },
   exportButton: {
     marginRight: theme.spacing(1)
+  },
+  card:{
+    backgroundColor: "transparent"
   }
+  
 }));

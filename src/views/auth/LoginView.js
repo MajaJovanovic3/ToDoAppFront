@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import Cookies from 'universal-cookie';
 import { Formik } from 'formik';
@@ -20,7 +21,7 @@ const cookies = new Cookies();
 const LoginView = props => {
   const classes = useStylesIndex();
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const initialState = {
     username: '',
     password: ''
@@ -33,15 +34,27 @@ const LoginView = props => {
     let password = e.target.password.value;
     e.preventDefault();
     if (username != '' && password != '') {
-      if (await login(username, password))
+      let result = await login(username, password);
+      if (result.isLogged) {
+        sessionStorage.setItem('user', JSON.stringify(result.user));
+        dispatch({ type: 'ADD_USER', payload: result.user });
         navigate('/app/tasks', { replace: true });
+      }
+      alert(result.message);
     } else {
       return alert('Morate popuniti sva polja!');
     }
   };
 
   return (
-    <Page className={classes.root} title="Login">
+    <Page
+      className={classes.root}
+      title="Login"
+      style={{
+        backgroundImage: "url('http://localhost:3000/aa.png')",
+        backgroundSize: 'contain'
+      }}
+    >
       <Box
         display="flex"
         flexDirection="column"
@@ -71,8 +84,11 @@ const LoginView = props => {
               touched,
               values
             }) => (
-              <form onSubmit={handleSubmit}>
-                <Box >
+              <form
+                onSubmit={handleSubmit}
+                style={{ background: 'white', padding: '10px' }}
+              >
+                <Box>
                   <Typography color="textPrimary" align="center" variant="h2">
                     Sign in
                   </Typography>

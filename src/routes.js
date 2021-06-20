@@ -8,6 +8,7 @@ import LoginView from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
 import TaskListView from 'src/views/task/TaskListView';
 import RegisterView from 'src/views/auth/RegisterView';
+import Logout from 'src/views/auth/Logout';
 import SettingsView from 'src/views/settings/SettingsView';
 
 const routes = [
@@ -28,6 +29,7 @@ const routes = [
     children: [
       { path: 'login', element: <LoginView /> },
       { path: 'register', element: <RegisterView /> },
+      { path: 'logout', element: <Logout /> },
       { path: '404', element: <NotFoundView /> },
       { path: '/', element: <Navigate to="/app/dashboard" /> },
       { path: '*', element: <Navigate to="/404" /> }

@@ -62,10 +62,10 @@ export const Toolbar = (props, { className, ...rest }) => {
           Add task
         </Button>
       </Box>
-      <Box mt={3}>
-        <Card>
-          <CardContent>
-            <Box maxWidth={500}>
+      <Box mt={3}  >
+        <Card className={classes.card}>
+          <CardContent >
+            <Box maxWidth={500} >
               <TextField
                 fullWidth
                 InputProps={{

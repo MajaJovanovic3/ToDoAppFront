@@ -53,7 +53,14 @@ const RegisterView = () => {
   };
 
   return (
-    <Page className={classes.root} title="Register">
+    <Page
+      className={classes.root}
+      title="Register"
+      style={{
+        backgroundImage: "url('http://localhost:3000/aa.png')",
+        backgroundSize: 'contain'
+      }}
+    >
       <Box
         display="flex"
         flexDirection="column"
@@ -97,7 +104,10 @@ const RegisterView = () => {
               touched,
               values
             }) => (
-              <form onSubmit={handleSubmit}>
+              <form
+                onSubmit={handleSubmit}
+                style={{ background: 'white', padding: '10px' }}
+              >
                 <Box mb={3}>
                   <Typography color="textPrimary" variant="h2">
                     Create new account

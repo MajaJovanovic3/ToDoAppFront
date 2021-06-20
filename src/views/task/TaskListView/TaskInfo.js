@@ -2,7 +2,7 @@ import React from 'react';
 import Carousel from 'react-material-ui-carousel';
 import pdf from '@material-ui/icons/PictureAsPdf';
 import SubjectIcon from '@material-ui/icons/Subject';
-import { createMuiTheme } from '@material-ui/core';
+import { createMuiTheme, Backdrop } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core';
 import { Document, Page } from 'react-pdf';
 import {
@@ -22,6 +22,7 @@ const theme = createMuiTheme({
   }
 });
 export const TaskInfo = props => {
+  console.log(props.task.completed);
   let blob;
   return (
     <div>
@@ -30,8 +31,9 @@ export const TaskInfo = props => {
         onClose={props.handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">TASK DETAIL</DialogTitle>
-        <DialogContent>
+        <div style={{ backgroundImage: "url('http://localhost:3000/aa.png')" ,  backgroundSize:"cover"}}>
+        <DialogTitle id="form-dialog-title" >TASK DETAIL</DialogTitle>
+        <DialogContent >
           <div>
             <TextField
               label="Name"
@@ -63,7 +65,7 @@ export const TaskInfo = props => {
                 readOnly: true
               }}
             />
-            {props.task.completed == 'true'
+            {props.task.completed === true
               ? 'Task is completed successfully'
               : "Task isn't completed yet!"}
           </div>
@@ -90,11 +92,12 @@ export const TaskInfo = props => {
             </Carousel>
           ) : null}
         </DialogContent>
-        <DialogActions>
+        <DialogActions >
           <Button onClick={props.handleClose} color="primary">
             Close
           </Button>
         </DialogActions>
+        </div>
       </Dialog>
     </div>
   );

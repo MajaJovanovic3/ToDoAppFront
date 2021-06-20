@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import {
   Avatar,
   Box,
@@ -20,17 +21,18 @@ import {
   ShoppingBag as ShoppingBagIcon,
   User as UserIcon,
   UserPlus as UserPlusIcon,
-  Users as UsersIcon
+  Users as UsersIcon,
+  LogOut as LogOutIcon
 } from 'react-feather';
 import NavItem from './NavItem';
 
-const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith'
+const admin = {
+  avatar: '/static/images/maja.jpg',
+  jobTitle: 'Developer',
+  name: 'Maja Lukić'
 };
 
-const items = [
+const itemsTask = [
   {
     href: '/app/dashboard',
     icon: BarChartIcon,
@@ -52,6 +54,24 @@ const items = [
     title: 'Settings'
   },
   {
+    href: '/404',
+    icon: AlertCircleIcon,
+    title: 'Error'
+  },
+  {
+    href: '/logout',
+    icon: LogOutIcon,
+    title: 'Logout'
+  }
+];
+
+const itemsLogin = [
+  {
+    href: '/app/dashboard',
+    icon: BarChartIcon,
+    title: 'Dashboard'
+  },
+  {
     href: '/login',
     icon: LockIcon,
     title: 'Login'
@@ -60,11 +80,6 @@ const items = [
     href: '/register',
     icon: UserPlusIcon,
     title: 'Register'
-  },
-  {
-    href: '/404',
-    icon: AlertCircleIcon,
-    title: 'Error'
   }
 ];
 
@@ -74,8 +89,8 @@ const useStyles = makeStyles(() => ({
   },
   desktopDrawer: {
     width: 256,
-    top: 64,
-    height: 'calc(100% - 64px)'
+    top: 0,
+    height: 'calc(100% )'
   },
   avatar: {
     cursor: 'pointer',
@@ -87,7 +102,8 @@ const useStyles = makeStyles(() => ({
 const NavBar = ({ onMobileClose, openMobile }) => {
   const classes = useStyles();
   const location = useLocation();
-
+  const user = useSelector(state => state.user.user);
+  const items = user != null ? itemsTask : itemsLogin;
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();
@@ -95,58 +111,55 @@ const NavBar = ({ onMobileClose, openMobile }) => {
   }, [location.pathname]);
 
   const content = (
-    <Box
-      height="100%"
-      display="flex"
-      flexDirection="column"
+    <div
+      style={{
+        position: 'absolute',
+        top: '0px',
+        bottom: '0px',
+        right: '0px',
+        left: '0px'
+      }}
     >
       <Box
-        alignItems="center"
+        height="100%"
         display="flex"
         flexDirection="column"
-        p={2}
+        style={{
+          backgroundImage: "url('http://localhost:3000/navbar.jpg')",
+          backgroundSize: 'auto'
+        }}
       >
-        <Avatar
-          className={classes.avatar}
-          component={RouterLink}
-          src={user.avatar}
-          to="/app/account"
-        />
-        <Typography
-          className={classes.name}
-          color="textPrimary"
-          variant="h5"
-        >
-          {user.name}
-        </Typography>
-        <Typography
-          color="textSecondary"
-          variant="body2"
-        >
-          {user.jobTitle}
-        </Typography>
+        <Box alignItems="center" display="flex" flexDirection="column" p={2}>
+          <Avatar
+            className={classes.avatar}
+            component={RouterLink}
+            src={admin.avatar}
+            to="/app/account"
+          />
+          <div style={{ backgroundColor: 'rgba(171,210,250,255)' }}>
+            <Typography style={{ color: 'rgba(0,34,106,255)', variant: 'h5' }}>
+              {admin.name}
+            </Typography>
+            <Typography style={{ color: 'rgba(0,34,106,255)' }} variant="body2">
+              {admin.jobTitle}
+            </Typography>
+          </div>
+        </Box>
+        <Divider />
+        <Box p={2}>
+          <List>
+            {items.map(item => (
+              <NavItem
+                href={item.href}
+                key={item.title}
+                title={item.title}
+                icon={item.icon}
+              />
+            ))}
+          </List>
+        </Box>
       </Box>
-      <Divider />
-      <Box p={2}>
-        <List>
-          {items.map((item) => (
-            <NavItem
-              href={item.href}
-              key={item.title}
-              title={item.title}
-              icon={item.icon}
-            />
-          ))}
-        </List>
-      </Box>
-      <Box flexGrow={1} />
-      <Box
-        p={2}
-        m={2}
-        bgcolor="background.dark"
-      >
-      </Box>
-    </Box>
+    </div>
   );
 
   return (

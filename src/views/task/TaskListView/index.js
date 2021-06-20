@@ -20,7 +20,7 @@ export const TaskPage = () => {
   }, [date]);
 
   useEffect(() => {
-    if (search!=null && tasks.length > 0)
+    if (search != null && tasks.length > 0)
       setDisplayedTasks(
         tasks.filter(
           task => task.name.toLowerCase().indexOf(search.toLowerCase()) !== -1
@@ -29,7 +29,14 @@ export const TaskPage = () => {
   }, [search]);
 
   return (
-    <Page className={classes.root} title="Tasks">
+    <Page
+      className={classes.root}
+      title="Tasks"
+      style={{
+        backgroundImage: "url('http://localhost:3000/aa.png')",
+        backgroundSize: '100% 100%'
+      }}
+    >
       <Container maxWidth={false}>
         <Toolbar setDate={setDate} setSearch={setSearch} />
         {search != null && search != '' ? (

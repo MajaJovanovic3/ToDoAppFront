@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { handleError, handleResponse } from './apiUtils';
+import { useDispatch } from 'react-redux';
 
 const cookies = new Cookies();
 const API_BASE_URL = 'http://localhost:3001';
@@ -27,7 +28,7 @@ export const login = async (username, password) => {
   if (result.isLogged) {
     cookies.set('jwt', result.token);
     console.log('Uspesno ste se ulogovali');
-    return result.isLogged;
+    return result;
   }
   alert(result.message);
 };

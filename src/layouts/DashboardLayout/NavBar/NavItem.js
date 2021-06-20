@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 0
   },
   button: {
-    color: theme.palette.text.secondary,
+    color: "rgba(0,34,106,255)",
     fontWeight: theme.typography.fontWeightMedium,
     justifyContent: 'flex-start',
     letterSpacing: 0,
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 'auto'
   },
   active: {
-    color: theme.palette.primary.main,
+    color: "rgba(16,169,236,255)",
     '& $title': {
       fontWeight: theme.typography.fontWeightMedium
     },
@@ -50,7 +50,7 @@ const NavItem = ({
   const classes = useStyles();
 
   return (
-    <ListItem
+    <ListItem 
       className={clsx(classes.item, className)}
       disableGutters
       {...rest}
