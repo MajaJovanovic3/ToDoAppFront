@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
-import Cookies from 'universal-cookie';
 import { Formik } from 'formik';
 import { login } from '../../api/userApi';
 import { useStylesIndex } from 'src/common/useStyles';
@@ -16,7 +15,6 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 
-const cookies = new Cookies();
 
 const LoginView = props => {
   const classes = useStylesIndex();
@@ -26,8 +24,6 @@ const LoginView = props => {
     username: '',
     password: ''
   };
-
-  const [state, setState] = useState(initialState);
 
   const handleSubmit = async e => {
     let username = e.target.username.value;

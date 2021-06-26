@@ -26,12 +26,6 @@ import {
 } from 'react-feather';
 import NavItem from './NavItem';
 
-const admin = {
-  avatar: '/static/images/maja.jpg',
-  jobTitle: 'Developer',
-  name: 'Maja Lukić'
-};
-
 const itemsTask = [
   {
     href: '/app/dashboard',
@@ -104,6 +98,19 @@ const NavBar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
   const user = useSelector(state => state.user.user);
   const items = user != null ? itemsTask : itemsLogin;
+  let admin;
+  if (user != null) {
+    admin = {
+      avatar: '/user.png',
+      jobTitle: '',
+      name: user.username
+    };
+  } else
+    admin = {
+      avatar: '/static/images/maja.jpg',
+      jobTitle: 'Developer',
+      name: 'Maja Lukić'
+    };
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();

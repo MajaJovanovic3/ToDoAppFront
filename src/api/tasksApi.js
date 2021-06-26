@@ -1,8 +1,6 @@
 import axios from 'axios';
-import Cookies from 'universal-cookie';
 import { handleError, handleResponse } from './apiUtils';
 
-const cookies = new Cookies();
 const API_BASE_URL = 'http://localhost:3001';
 
 export function getTasks(date) {
@@ -50,5 +48,12 @@ export async function uploadFile(data) {
       alert(res.data.message);
       if ((res.data.status = 'OK')) return res.data.task;
     })
+    .catch(handleError);
+}
+
+export async function deleteTask(id) {
+  return axios
+    .post(API_BASE_URL + '/delete-task', { id: id }, { withCredentials: true })
+    .then(handleResponse)
     .catch(handleError);
 }

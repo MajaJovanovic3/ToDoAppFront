@@ -14,15 +14,6 @@ import {
   makeStyles
 } from '@material-ui/core';
 
-const user = {
-  avatar: '/static/images/maja.jpg',
-  city: 'Belgrade',
-  country: 'Serbia',
-  jobTitle: 'Junior Developer',
-  name: 'Maja Lukić',
-  timezone: 'GTM-7'
-};
-
 const useStyles = makeStyles(() => ({
   root: {},
   avatar: {
@@ -31,53 +22,21 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const Profile = ({ className, ...rest }) => {
+const Profile = ({ className,user ,...rest }) => {
   const classes = useStyles();
-
   return (
-    <Card
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
+    <Card className={clsx(classes.root, className)} {...rest}>
       <CardContent>
-        <Box
-          alignItems="center"
-          display="flex"
-          flexDirection="column"
-        >
-          <Avatar
-            className={classes.avatar}
-            src={user.avatar}
-          />
-          <Typography
-            color="textPrimary"
-            gutterBottom
-            variant="h3"
-          >
-            {user.name}
-          </Typography>
-          <Typography
-            color="textSecondary"
-            variant="body1"
-          >
-            {`${user.city} ${user.country}`}
-          </Typography>
-          <Typography
-            className={classes.dateText}
-            color="textSecondary"
-            variant="body1"
-          >
-            {`${moment().format('hh:mm A')} ${user.timezone}`}
+        <Box alignItems="center" display="flex" flexDirection="column">
+          <Avatar className={classes.avatar}  src={window.location.origin + '/user.png'} />
+          <Typography color="textPrimary" gutterBottom variant="h3">
+            {user.username}
           </Typography>
         </Box>
       </CardContent>
       <Divider />
       <CardActions>
-        <Button
-          color="primary"
-          fullWidth
-          variant="text"
-        >
+        <Button color="primary" fullWidth variant="text">
           Upload picture
         </Button>
       </CardActions>

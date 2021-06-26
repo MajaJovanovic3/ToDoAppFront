@@ -11,27 +11,30 @@ import {
 import { connect, useDispatch } from 'react-redux';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { updateTask } from 'src/redux/actions/taskActions';
+import { loadTasks } from 'src/redux/actions/taskActions';
 import DateFnsUtils from '@date-io/date-fns';
 
 export function TaskForm(props) {
   const dispatch = useDispatch();
-  const [editTask, setEditTask] = useState(props.task);
-
-  const handleSave = () => {
-    dispatch(updateTask(editTask));
-    props.setTask(editTask);
+  const handleSave = async () => {
+    await dispatch(updateTask(props.task));
+    if((props.date.getDate() !== new Date(props.task.date).getDate()))
+    await dispatch(loadTasks(props.date));
     props.handleClose();
   };
 
   const handleChange = e => {
-    setEditTask({ ...editTask, [e.target.name]: e.target.value });
+    props.setTask({ ...props.task, [e.target.name]: e.target.value });
   };
 
   const handleDateChange = async date => {
-    setEditTask({ ...editTask, ['date']: date });
+    props.setTask({
+      ...props.task,
+      ['date']: date.toISOString()
+    });
   };
   const handleChecked = e => {
-    setEditTask({ ...editTask, ['completed']: e.target.checked });
+    props.setTask({ ...props.task, ['completed']: e.target.checked });
   };
 
   return (
@@ -48,12 +51,12 @@ export function TaskForm(props) {
               name="name"
               label="Name"
               variant="outlined"
-              defaultValue={editTask.name}
+              defaultValue={props.task.name}
               onChange={handleChange}
             />
             <TextField
               autoFocus
-              defaultValue={editTask.description}
+              defaultValue={props.task.description}
               margin="normal"
               name="description"
               label="Description"
@@ -64,12 +67,12 @@ export function TaskForm(props) {
             />
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <DatePicker
-                value={editTask.date}
+                value={props.task.date}
                 onChange={e => handleDateChange(e)}
               />
             </MuiPickersUtilsProvider>
             &nbsp;&nbsp;&nbsp;&nbsp; Completed
-            <Checkbox checked={editTask.completed} onChange={handleChecked} />
+            <Checkbox checked={props.task.completed} onChange={handleChecked} />
           </div>
         </DialogContent>
         <DialogActions>

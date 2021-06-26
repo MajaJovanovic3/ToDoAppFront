@@ -5,14 +5,13 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { connect, useSelector, useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { addTask } from 'src/redux/actions/taskActions';
 
 export function ModalTask(props) {
   const dispatch = useDispatch();
   const nameRef = useRef();
   const descriptionRef = useRef();
- // const tasks = useSelector(state => state.tasks);
 
   const handleSave = async () => {
     dispatch(
@@ -22,7 +21,6 @@ export function ModalTask(props) {
     document.getElementById('search').value = '';
     props.handleClose();
   };
-
   return (
     <div>
       <Dialog

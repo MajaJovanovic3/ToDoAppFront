@@ -26,7 +26,7 @@ export const login = async (username, password) => {
     .then(handleResponse)
     .catch(handleError);
   if (result.isLogged) {
-    cookies.set('jwt', result.token);
+    cookies.set('jwt', result.token, { path: '/' });
     console.log('Uspesno ste se ulogovali');
     return result;
   }
@@ -40,6 +40,15 @@ export const register = async (email, username, password) => {
       email: email,
       password: password
     })
+    .then(handleResponse)
+    .catch(handleError);
+};
+
+export const changePassword = async (password) => {
+  return await axios
+    .post(API_BASE_URL + '/change-password',
+     {password: password },
+     { withCredentials: true })
     .then(handleResponse)
     .catch(handleError);
 };

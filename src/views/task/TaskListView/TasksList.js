@@ -30,7 +30,7 @@ export default function TasksList(props) {
           {_DATA.currentData().length > 0 ? (
             _DATA.currentData().map(task => (
               <Grid item key={task._id} lg={4} md={6} xs={12}>
-                <TaskCard className={classes.taskCard} taskProp={task} />
+                <TaskCard className={classes.taskCard} taskProp={task} date={props.date} />
               </Grid>
             ))
           ) : (
