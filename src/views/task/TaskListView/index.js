@@ -43,12 +43,16 @@ export const TaskPage = () => {
           displayedTasks.length > 0 ? (
             <TasksList tasks={displayedTasks} date={date} search={search} />
           ) : (
-            <h1>Nema zadataka po datoj pretrazi</h1>
+            <h1>
+              <i>No tasks per search given</i>
+            </h1>
           )
         ) : tasks.length > 0 ? (
           <TasksList tasks={tasks} date={date} search={search} />
         ) : (
-          <h1>Nemate zadataka</h1>
+          <h1>
+            <i>No tasks</i>
+          </h1>
         )}
       </Container>
     </Page>

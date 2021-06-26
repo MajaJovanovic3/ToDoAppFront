@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import {
   Avatar,
   Box,
-  Button,
   Divider,
   Drawer,
   Hidden,
@@ -46,11 +45,6 @@ const itemsTask = [
     href: '/app/settings',
     icon: SettingsIcon,
     title: 'Settings'
-  },
-  {
-    href: '/404',
-    icon: AlertCircleIcon,
-    title: 'Error'
   },
   {
     href: '/logout',

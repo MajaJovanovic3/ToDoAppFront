@@ -35,7 +35,7 @@ const Password = ({ className, ...rest }) => {
 
   const handleSubmit = async () => {
     if (values.password != values.confirm) {
-      alert("Password confirmation doesn't match Password!");
+      alert("Password confirmation doesn't match password!");
       setValues('');
       document.getElementsByName('password')[0].value = '';
       document.getElementsByName('confirm')[0].value = '';

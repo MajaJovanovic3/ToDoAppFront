@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Button,
   TextField,
@@ -18,8 +18,8 @@ export function TaskForm(props) {
   const dispatch = useDispatch();
   const handleSave = async () => {
     await dispatch(updateTask(props.task));
-    if((props.date.getDate() !== new Date(props.task.date).getDate()))
-    await dispatch(loadTasks(props.date));
+    if (props.date.getDate() !== new Date(props.task.date).getDate())
+      await dispatch(loadTasks(props.date));
     props.handleClose();
   };
 

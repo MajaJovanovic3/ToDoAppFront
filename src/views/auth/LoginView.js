@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
@@ -15,15 +15,10 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 
-
 const LoginView = props => {
   const classes = useStylesIndex();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const initialState = {
-    username: '',
-    password: ''
-  };
 
   const handleSubmit = async e => {
     let username = e.target.username.value;
@@ -38,7 +33,7 @@ const LoginView = props => {
       }
       alert(result.message);
     } else {
-      return alert('Morate popuniti sva polja!');
+      return alert('Please make sure all fields are filled!');
     }
   };
 

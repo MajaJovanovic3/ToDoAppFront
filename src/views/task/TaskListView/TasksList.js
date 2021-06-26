@@ -34,7 +34,7 @@ export default function TasksList(props) {
               </Grid>
             ))
           ) : (
-            <h1>Nema takvih zadataka</h1>
+            <h1><i>There are no such tasks</i></h1>
           )}
         </Grid>
       </Box>

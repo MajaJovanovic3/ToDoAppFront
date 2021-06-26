@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { handleError, handleResponse } from './apiUtils';
-import { useDispatch } from 'react-redux';
 
 const cookies = new Cookies();
 const API_BASE_URL = 'http://localhost:3001';
@@ -27,7 +26,6 @@ export const login = async (username, password) => {
     .catch(handleError);
   if (result.isLogged) {
     cookies.set('jwt', result.token, { path: '/' });
-    console.log('Uspesno ste se ulogovali');
     return result;
   }
   alert(result.message);
@@ -44,11 +42,13 @@ export const register = async (email, username, password) => {
     .catch(handleError);
 };
 
-export const changePassword = async (password) => {
+export const changePassword = async password => {
   return await axios
-    .post(API_BASE_URL + '/change-password',
-     {password: password },
-     { withCredentials: true })
+    .post(
+      API_BASE_URL + '/change-password',
+      { password: password },
+      { withCredentials: true }
+    )
     .then(handleResponse)
     .catch(handleError);
 };

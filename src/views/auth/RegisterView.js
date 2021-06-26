@@ -33,9 +33,9 @@ const RegisterView = () => {
       password == '' ||
       confirmPassword == ''
     ) {
-      return alert('Morate popuniti sva polja!');
+      return alert('Please make sure all fields are filled!');
     }
-    if (!policy) return alert('Morate prihvatiti uslove korišćenja');
+    if (!policy) return alert('You have to accept the terms of use!');
     if (password === confirmPassword) {
       let result = await register(email, username, password);
       alert(result.message);
@@ -46,7 +46,7 @@ const RegisterView = () => {
         document.getElementsByName('confirmPassword')[0].value = null;
       }
     } else {
-      alert('Sifre se ne poklapaju');
+      alert('Password confirmation doesn"t match password!');
       document.getElementsByName('password')[0].value = '';
       document.getElementsByName('confirmPassword')[0].value = '';
     }
